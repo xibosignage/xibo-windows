@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:XiboClient2.Forms"
         mc:Ignorable="d"
-        Title="Player Options" Height="506.8" Width="800" Icon="/XiboClient2;component/Resources/logo.png" ShowInTaskbar="False" ResizeMode="NoResize">
+        Title="Player Options" Height="506.8" Width="800" Icon="/XiboClient2;component/Resources/logo.png" ResizeMode="CanMinimize" WindowState="Minimized">
     <Grid>
 
         <DockPanel Margin="36,22,657.6,370">
