@@ -1,33 +1,17 @@
-/*
- * Xibo - Digitial Signage - http://www.xibo.org.uk
- * Copyright (C) 2006 - 2014 Daniel Garner
- *
- * This file is part of Xibo.
- *
- * Xibo is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * any later version. 
- *
- * Xibo is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with Xibo.  If not, see <http://www.gnu.org/licenses/>.
- */
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
-using System.Diagnostics;
-using XiboClient2.Log;
+using System.Threading.Tasks;
 using System.Xml;
-using XiboClient2.Logic;
-using System.Net;
+using XiboClient2.Processor.Log;
+using XiboClient2.Processor.Logic;
+using XiboClient2.Processor.Settings;
 
-namespace XiboClient2.Logic.XmdsAgents
+namespace XiboClient2.Processor.XmdsAgents
 {
     class RegisterAgent
     {
@@ -88,13 +72,13 @@ namespace XiboClient2.Logic.XmdsAgents
                             string xmrAddress = ApplicationSettings.Default.XmrNetworkAddress;
 
                             RegisterAgent.ProcessRegisterXml(xmds.RegisterDisplay(
-                                ApplicationSettings.Default.ServerKey, 
-                                key.Key, 
-                                ApplicationSettings.Default.DisplayName, 
-                                "windows", 
-                                ApplicationSettings.Default.ClientVersion, 
-                                ApplicationSettings.Default.ClientCodeVersion, 
-                                Environment.OSVersion.ToString(), 
+                                ApplicationSettings.Default.ServerKey,
+                                key.Key,
+                                ApplicationSettings.Default.DisplayName,
+                                "windows",
+                                ApplicationSettings.Default.ClientVersion,
+                                ApplicationSettings.Default.ClientCodeVersion,
+                                Environment.OSVersion.ToString(),
                                 key.MacAddress,
                                 key.Channel,
                                 key.getXmrPublicKey()));
@@ -146,7 +130,7 @@ namespace XiboClient2.Logic.XmdsAgents
                 // Load the result into an XML document
                 XmlDocument result = new XmlDocument();
                 result.LoadXml(xml);
-                
+
                 // Test the XML
                 if (result.DocumentElement.Attributes["code"].Value == "READY")
                 {
@@ -220,18 +204,19 @@ namespace XiboClient2.Logic.XmdsAgents
         /// <returns></returns>
         private string WindowsToIana(string windowsZoneId)
         {
+            string result = "Etc/UTC";
             if (windowsZoneId.Equals("UTC", StringComparison.Ordinal))
                 return "Etc/UTC";
 
-            var source = NodaTime.TimeZones.TzdbDateTimeZoneSource.Default;
-            string result;
-            // If there's no such mapping, result will be null.
-            source.WindowsMapping.PrimaryMapping.TryGetValue(windowsZoneId, out result);
-            // Canonicalize
-            if (result != null)
-            {
-                result = source.CanonicalIdMap[result];
-            }
+            //var source = NodaTime.TimeZones.TzdbDateTimeZoneSource.Default;
+            //string result;
+            //// If there's no such mapping, result will be null.
+            //source.WindowsMapping.PrimaryMapping.TryGetValue(windowsZoneId, out result);
+            //// Canonicalize
+            //if (result != null)
+            //{
+            //    result = source.CanonicalIdMap[result];
+            //}
             return result;
         }
     }

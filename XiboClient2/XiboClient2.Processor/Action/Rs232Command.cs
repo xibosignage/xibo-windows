@@ -4,10 +4,10 @@ using System.Diagnostics;
 using System.IO.Ports;
 using System.Linq;
 using System.Text;
-using XiboClient2.Log;
+using System.Threading.Tasks;
 using XiboClient2.Processor.Log;
 
-namespace XiboClient2.Action
+namespace XiboClient2.Processor.Action
 {
     public class Rs232Command
     {

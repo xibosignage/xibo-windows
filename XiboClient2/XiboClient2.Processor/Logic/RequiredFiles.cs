@@ -1,41 +1,18 @@
-﻿/*
- * Xibo - Digitial Signage - http://www.xibo.org.uk
- * Copyright (C) 2011-14 Daniel Garner
- *
- * This file is part of Xibo.
- *
- * Xibo is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * any later version. 
- *
- * Xibo is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with Xibo.  If not, see <http://www.gnu.org/licenses/>.
- */
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
-using System.IO;
-using System.Security.Cryptography;
-using System.Xml;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml;
 using System.Xml.Serialization;
-using XiboClient2.Log;
-using XiboClient2.LibrarySettings;
-using XiboClient2.Cache;
 using XiboClient2.Processor.Log;
+using XiboClient2.Processor.Models;
+using XiboClient2.Processor.Settings;
 
-/// 17/02/12 Dan Enriched to also manage currently downloading files
-/// 28/02/12 Dan Changed the way RequiredFiles are updated
-/// 09/04/12 Dan Fixed problem with adding an existing file to the cache manager!
-/// 16/FEB/14 Dan Changes to understand the new "resource" file type
-namespace XiboClient2.Logic
+namespace XiboClient2.Processor.Logic
 {
     public class RequiredFiles
     {
@@ -89,7 +66,7 @@ namespace XiboClient2.Logic
             RequiredFileList = new Collection<RequiredFile>();
 
             // Create a webservice call
-            _report = new XiboClient2.xmds.xmds();
+            _report = new XiboClient2.Processor.xmds.xmds();
 
             // Start up the Xmds Service Object
             _report.Credentials = null;
@@ -429,29 +406,5 @@ namespace XiboClient2.Logic
                 }
             }
         }
-    }
-
-    public class RequiredFile
-    {
-        public string FileType;
-        public int Id;
-        public DateTime LastChecked;
-        public string Md5;
-        public string Path;
-        public string SaveAs;
-
-        public bool Downloading;
-        public bool Complete;
-        public bool Http;
-
-        public double ChunkOffset;
-        public double ChunkSize;
-        public double Size;
-        public int Retrys;
-
-        // Resource nodes
-        public int LayoutId;
-        public string RegionId;
-        public string MediaId;
     }
 }

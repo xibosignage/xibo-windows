@@ -1,38 +1,18 @@
-/*
- * Xibo - Digitial Signage - http://www.xibo.org.uk
- * Copyright (C) 2006 - 2017 Spring Signage Ltd
- *
- * This file is part of Xibo.
- *
- * Xibo is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * any later version. 
- *
- * Xibo is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with Xibo.  If not, see <http://www.gnu.org/licenses/>.
- */
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net;
-using System.Net.Mime;
-using XiboClient2.Log;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using XiboClient2.Processor.Log;
+using XiboClient2.Processor.Logic;
+using XiboClient2.Processor.Models;
+using XiboClient2.Processor.Settings;
 
-/// 17/02/12 Dan Created
-/// 21/02/12 Dan Added OnComplete Delegate and Event
-/// 28/02/12 Dan Added OnPartComplete Delegate and Event
-/// 22/04/12 Dan Dispose of XMDS between each request
-
-namespace XiboClient2.Logic.XmdsAgents
+namespace XiboClient2.Processor.XmdsAgents
 {
     class FileAgent
     {
@@ -72,6 +52,7 @@ namespace XiboClient2.Logic.XmdsAgents
                 _requiredFiles = value;
             }
         }
+
         private RequiredFiles _requiredFiles;
 
         /// <summary>
@@ -115,7 +96,7 @@ namespace XiboClient2.Logic.XmdsAgents
         /// </summary>
         public FileAgent()
         {
-            
+
         }
 
         /// <summary>
@@ -304,6 +285,7 @@ namespace XiboClient2.Logic.XmdsAgents
                 // Mark as not downloading
                 file.Downloading = false;
             }
+
             catch (Exception ex)
             {
                 // Remove from the cache manager

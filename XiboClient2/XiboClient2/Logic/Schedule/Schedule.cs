@@ -28,6 +28,14 @@ using System.Xml.Serialization;
 using System.Diagnostics;
 using System.Threading;
 using XiboClient2.LibrarySettings;
+using XiboClient2.Log;
+using XiboClient2.Logic.XmdsAgents;
+using XiboClient2.Cache;
+using XiboClient2.Logic.Action;
+using XiboClient2.Logic;
+using XiboClient2.Logic.Control;
+using XiboClient2.XmdsAgents;
+using XiboClient2.Processor.Log;
 
 /// 17/02/12 Dan Removed Schedule call, introduced ScheduleAgent
 /// 21/02/12 Dan Named the threads
@@ -37,7 +45,7 @@ namespace XiboClient2
     /// <summary>
     /// Reads the schedule
     /// </summary>
-    class Schedule
+    public class Schedule
     {
         public delegate void ScheduleChangeDelegate(string layoutPath, int scheduleId, int layoutId);
         public event ScheduleChangeDelegate ScheduleChangeEvent;
@@ -322,7 +330,7 @@ namespace XiboClient2
         /// <summary>
         /// XMR Subscriber Action
         /// </summary>
-        void _xmrSubscriber_OnAction(Action.PlayerActionInterface action)
+        void _xmrSubscriber_OnAction(PlayerActionInterface action)
         {
             switch (action.GetActionName())
             {

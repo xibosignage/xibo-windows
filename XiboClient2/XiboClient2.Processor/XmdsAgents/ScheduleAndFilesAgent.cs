@@ -1,39 +1,20 @@
-/*
- * Xibo - Digitial Signage - http://www.xibo.org.uk
- * Copyright (C) 2006 - 2015 Daniel Garner
- *
- * This file is part of Xibo.
- *
- * Xibo is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Affero General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * any later version. 
- *
- * Xibo is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU Affero General Public License for more details.
- *
- * You should have received a copy of the GNU Affero General Public License
- * along with Xibo.  If not, see <http://www.gnu.org/licenses/>.
- */
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Threading;
 using System.Diagnostics;
-using System.Xml;
-using XiboClient2.Log;
-using System.Net;
 using System.Globalization;
 using System.IO;
-using XiboClient2.Cache;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Xml;
+using XiboClient2.Processor.Log;
+using XiboClient2.Processor.Logic;
+using XiboClient2.Processor.Models;
+using XiboClient2.Processor.Settings;
 
-/// 17/02/12 Dan Created
-/// 20/02/12 Dan Added ClientInfo
-/// 27/02/12 Dan Updated to raise an event when a file has completed downloading
-
-namespace XiboClient2.Logic.XmdsAgents
+namespace XiboClient2.Processor.XmdsAgents
 {
     class ScheduleAndFilesAgent
     {
@@ -156,7 +137,7 @@ namespace XiboClient2.Logic.XmdsAgents
                 {
                     // Run the schedule Agent thread
                     scheduleAgent();
-                
+
                     if (ApplicationSettings.Default.InDownloadWindow)
                     {
                         try
@@ -245,7 +226,7 @@ namespace XiboClient2.Logic.XmdsAgents
                                     if (threadsToStart.Count == 0)
                                     {
                                         _clientInfoForm.RequiredFilesStatus = "Sleeping (inside download window)";
-                                        
+
                                         // Raise an event to say we've completed
                                         if (OnFullyProvisioned != null)
                                             OnFullyProvisioned();
