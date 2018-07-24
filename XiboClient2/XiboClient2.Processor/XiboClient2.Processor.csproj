@@ -118,6 +118,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Settings\ApplicationSettings.cs" />
+    <Compile Include="Settings\AppStartup.cs" />
     <Compile Include="Settings\OptionSetting.cs" />
     <Compile Include="Web References\xmds\Reference.cs">
       <AutoGen>True</AutoGen>
