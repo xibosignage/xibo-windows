@@ -18,16 +18,24 @@ namespace XiboClient2.Processor.Logic
             rsaCipher.Init(false, privateKey);
 
             // Get the decrypted key
-            byte[] key = rsaCipher.DoFinal(Convert.FromBase64String(cypherKey));
 
-            // Use this Key to decrypt the main message
-            IBufferedCipher rsaKeyCipher = CipherUtilities.GetCipher("RC4");
-            KeyParameter parameter = new KeyParameter(key);
-            rsaKeyCipher.Init(false, parameter);
+            try
+            {
+                byte[] key = rsaCipher.DoFinal(Convert.FromBase64String(cypherKey));
+                // Use this Key to decrypt the main message
+                IBufferedCipher rsaKeyCipher = CipherUtilities.GetCipher("RC4");
+                KeyParameter parameter = new KeyParameter(key);
+                rsaKeyCipher.Init(false, parameter);
 
-            byte[] opened = rsaKeyCipher.DoFinal(Convert.FromBase64String(cypherText));
+                byte[] opened = rsaKeyCipher.DoFinal(Convert.FromBase64String(cypherText));
 
-            return Encoding.ASCII.GetString(opened);
+                return Encoding.ASCII.GetString(opened);
+            }
+            catch(Exception ex)
+            {
+                return null;
+            }
+            
         }
     }
 }

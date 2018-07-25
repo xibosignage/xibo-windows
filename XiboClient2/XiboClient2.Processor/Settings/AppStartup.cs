@@ -14,6 +14,7 @@ using System.Xml.Serialization;
 using XiboClient2.Processor.Forms;
 using XiboClient2.Processor.Log;
 using XiboClient2.Processor.Logic;
+using System.Windows.Input;
 
 namespace XiboClient2.Processor.Settings
 {
@@ -92,7 +93,7 @@ namespace XiboClient2.Processor.Settings
         /// </summary>
         public void Initialize()
         {
-            Thread.CurrentThread.Name = "UI Thread";
+            //Thread.CurrentThread.Name = "UI Thread";
 
             // Check the directories exist
             if (!Directory.Exists(ApplicationSettings.Default.LibraryPath + @"\backgrounds\"))
@@ -128,10 +129,10 @@ namespace XiboClient2.Processor.Settings
                 key = Keys.I;
             }
 
-            KeyStore.Instance.AddKeyDefinition("ClientInfo", key, ((ApplicationSettings.Default.ClientInfomationCtrlKey) ? Keys.Control : Keys.None));
+            //KeyStore.Instance.AddKeyDefinition("ClientInfo", key, ((ApplicationSettings.Default.ClientInfomationCtrlKey) ? Keys.Control : Keys.None));
 
             // Register a handler for the key event
-            ////KeyStore.Instance.KeyPress += Instance_KeyPress;
+            //KeyStore.Instance.KeyPress += Instance_KeyPress;
 
             // Trace listener for Client Info
             ClientInfoTraceListener clientInfoTraceListener = new ClientInfoTraceListener(_clientInfoForm);
@@ -169,6 +170,41 @@ namespace XiboClient2.Processor.Settings
 
             Trace.WriteLine(new LogMessage("MainForm", "Client Initialised"), LogType.Info.ToString());
         }
+        
+
+        public void Instance_KeyPress(string name)
+        {
+            Debug.WriteLine("KeyPress " + name);
+            if (name == "ClientInfo")
+            {
+                // Toggle
+                if (_clientInfoForm.Visible)
+                {
+                    _clientInfoForm.Hide();
+#if !DEBUG
+                    if (!_screenSaver)
+                        TopMost = true;
+#endif
+                }
+                else
+                {
+#if !DEBUG
+                    if (!_screenSaver)
+                        TopMost = false;
+#endif
+                    _clientInfoForm.Show();
+                    _clientInfoForm.BringToFront();
+                }
+            }
+            else if (name == "ScreenSaver")
+            {
+                Debug.WriteLine("Closing due to ScreenSaver key press");
+                if (!_screenSaver)
+                    return;
+
+                //Close();
+            }
+        }
 
         /// <summary>
         /// Main window Loading method
@@ -188,7 +224,7 @@ namespace XiboClient2.Processor.Settings
         /// <summary>
         /// Main Window Closing 
         /// </summary>
-        public void FormClossing()
+        public void FormClosing()
         {
             // We want to tidy up some stuff as this form closes.
             Trace.Listeners.Remove("ClientInfo TraceListener");
@@ -326,5 +362,7 @@ namespace XiboClient2.Processor.Settings
 
             //ChangeToNextLayout(layoutPath);
         }
+
+
     }
 }
