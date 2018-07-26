@@ -33,9 +33,9 @@ namespace XiboClient2
 
 #if !DEBUG
             // Catch unhandled exceptions
-            AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
-            Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
-            TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
+            //AppDomain.CurrentDomain.UnhandledException += new UnhandledExceptionEventHandler(CurrentDomain_UnhandledException);
+            //Application.ThreadException += new System.Threading.ThreadExceptionEventHandler(Application_ThreadException);
+            //TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
 #endif
             // Add the Xibo Tracelistener
             

@@ -15,6 +15,7 @@ using XiboClient2.Processor.Forms;
 using XiboClient2.Processor.Log;
 using XiboClient2.Processor.Logic;
 using System.Windows.Input;
+using XiboClient2.Processor.Control;
 
 namespace XiboClient2.Processor.Settings
 {
@@ -182,15 +183,15 @@ namespace XiboClient2.Processor.Settings
                 {
                     _clientInfoForm.Hide();
 #if !DEBUG
-                    if (!_screenSaver)
-                        TopMost = true;
+                    //if (!_screenSaver)
+                    //    TopMost = true;
 #endif
                 }
                 else
                 {
 #if !DEBUG
-                    if (!_screenSaver)
-                        TopMost = false;
+                    //if (!_screenSaver)
+                    //    TopMost = false;
 #endif
                     _clientInfoForm.Show();
                     _clientInfoForm.BringToFront();
@@ -277,8 +278,8 @@ namespace XiboClient2.Processor.Settings
 
                 // Set this form to topmost
 #if !DEBUG
-                if (!_screenSaver)
-                    TopMost = true;
+                //if (!_screenSaver)
+                //    TopMost = true;
 #endif
             }
             catch (Exception ex)

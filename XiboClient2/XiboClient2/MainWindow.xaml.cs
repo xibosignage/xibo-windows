@@ -24,6 +24,8 @@ using XiboClient2.Processor.Forms;
 using System.Threading;
 using XiboClient2.Processor.Logic;
 using System.Windows.Forms;
+using XiboClient2.Settings;
+using XiboClient2.Processes;
 
 namespace XiboClient2
 {
@@ -33,6 +35,10 @@ namespace XiboClient2
     public partial class MainWindow : Window
     {
         private AppStartup _appStart = new AppStartup();
+        private string scheduleName = "schedule.xml";
+
+        private bool isHiding = false;
+
 
         public MainWindow(IntPtr previewHandle)
         {
@@ -53,7 +59,7 @@ namespace XiboClient2
             _appStart.Initialize();
 
             this.Loaded += MainWindow_Loaded;
-            this.Closing += MainWindow_Closing;
+            //this.Closing += MainWindow_Closing;
             this.ContentRendered += MainWindow_ContentRendered;            
         }
 
@@ -64,8 +70,59 @@ namespace XiboClient2
         /// <param name="e"></param>
         private void MainWindow_ContentRendered(object sender, EventArgs e)
         {
+
+            if (isHiding)
+            {
+                return;
+            }
+
             //run form show
-           _appStart.FormShown();
+            _appStart.FormShown();
+
+            //string _filePath = "pack://application:,,,/XiboClientWPF;component/Resources/splash.jpg";
+            //Uri uriImage = new Uri(_filePath);
+            //Image img = new Image()
+            //{
+            //    Name = "Img",
+            //};
+            //img.Source = new BitmapImage(uriImage);
+            //this.LayoutRoot.Children.Add(img);
+
+            //string path = PlayerSettings.libraryPath;
+            try
+            {
+                PlayerSettings.scheduleName = scheduleName;
+                RenderSchedule.ReadSchedule(scheduleName);
+                ShowSplashScreen();
+                this.Hide();
+                isHiding = true;
+            }
+            catch (Exception ex)
+            {
+                PlayerSettings.ErrorLog(ex);
+            }
+
+            
+
+        }
+
+        /// <summary>
+        /// Load Screen
+        /// </summary>
+        public void ShowSplashScreen()
+        {
+            try
+            {
+                LayoutWindow layoutWindow = new LayoutWindow();
+                layoutWindow.Show();
+                
+            }
+            catch (Exception ex)
+            {
+                PlayerSettings.ErrorLog(ex);
+                //ShowDefaultSplashScreen();
+            }
+
         }
 
         /// <summary>
@@ -76,7 +133,7 @@ namespace XiboClient2
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             //run form closing
-            _appStart.FormClosing();
+            //_appStart.FormClosing();
         }
 
         /// <summary>
@@ -87,6 +144,12 @@ namespace XiboClient2
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             //Run From Load
+
+            if (isHiding)
+            {
+                return;
+            }
+
             _appStart.FormLoad();
             this.KeyUp += MainWindow_KeyUp;
         }
