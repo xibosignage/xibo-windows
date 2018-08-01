@@ -232,8 +232,12 @@
   <ItemGroup>
     <Content Include="Resources\HtmlTemplate.htm" />
     <Resource Include="Resources\licence.txt" />
-    <Resource Include="Resources\logo.png" />
-    <Resource Include="Resources\splash.jpg" />
+    <Resource Include="Resources\logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\splash.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.2">
@@ -250,11 +254,7 @@
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Action\" />
-    <Folder Include="Forms\" />
-    <Folder Include="Log\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\XiboClient2.Processor\XiboClient2.Processor.csproj">
       <Project>{0623ee43-24fe-4b20-89f8-ca8cb0ce3bc2}</Project>

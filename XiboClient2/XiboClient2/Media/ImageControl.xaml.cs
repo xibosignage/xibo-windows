@@ -47,7 +47,6 @@ namespace XiboClient2.Media
             img = null;
             Console.WriteLine("Region" + obj.regionId + "Media Unload");
             TimerMediaImg.Stop();
-            //throw new NotImplementedException();
         }
 
         /// <summary>
@@ -99,6 +98,7 @@ namespace XiboClient2.Media
             {
                 Name = "Img" + obj.regionId,
             };
+
             img.Source = new BitmapImage(uriImage);
 
             this.ImagePanel.Children.Add(img);
@@ -138,7 +138,6 @@ namespace XiboClient2.Media
             if (_MediaFinish != null)
             {
                 _MediaFinish(mediaId);
-
             }
         }
 

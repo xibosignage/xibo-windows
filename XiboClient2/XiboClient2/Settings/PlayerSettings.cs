@@ -18,7 +18,9 @@ namespace XiboClient2.Settings
         public static string scheduleName = "";
         public static int firstLoadCheck = 0;
         public static bool EnableShellCommands = true;
-        
+
+        public static AppStartup _appStart = new AppStartup();
+
 
         /// <summary>
         /// Get Video Audio duraion

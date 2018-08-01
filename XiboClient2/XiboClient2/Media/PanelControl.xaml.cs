@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using XiboClient2.Processes;
+using XiboClient2.Processor.Log;
 using XiboClient2.Settings;
 
 namespace XiboClient2.Media
@@ -175,11 +177,11 @@ namespace XiboClient2.Media
                     }
                 }
 
-
                 Console.WriteLine("Region " + RegionId + " Loaded");
             }
             catch (Exception ex)
             {
+                Trace.WriteLine(new LogMessage("Media Load", "Media Load Fail"), LogType.Audit.ToString());
                 PlayerSettings.ErrorLog(ex);
             }
 
@@ -383,6 +385,7 @@ namespace XiboClient2.Media
             {
                 if (MediaList.Count == 1)
                 {
+                    Trace.WriteLine(new LogMessage("Media - SignalElapsedEvent", "Media Complete"), LogType.Audit.ToString());
                     loopCounter = 0;
                     CallToBack();
                 }
@@ -405,8 +408,6 @@ namespace XiboClient2.Media
                         }
 
                     });
-
-
                 }
 
             }

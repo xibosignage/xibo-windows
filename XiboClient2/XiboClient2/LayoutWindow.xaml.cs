@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,6 +15,7 @@ using System.Windows.Shapes;
 using System.Windows.Threading;
 using XiboClient2.Media;
 using XiboClient2.Processes;
+using XiboClient2.Processor.Log;
 using XiboClient2.Processor.Settings;
 using XiboClient2.Settings;
 
@@ -43,10 +45,7 @@ namespace XiboClient2
         //Region duration list
         private List<double> RegionDurationList = new List<double>();
 
-        private AppStartup _appStart = new AppStartup();
 
-
-        //private ConcurrentStack<int> FinishedRegionList = new ConcurrentStack<int>();
         private List<int> FinishedRegionList = new List<int>();
 
         public LayoutWindow()
@@ -54,12 +53,23 @@ namespace XiboClient2
             InitializeComponent();
             Loaded += LayoutWindow_Loaded;
             this.Closing += LayoutWindow_Closing;
+            KeyUp += LayoutWindow_KeyUp;
+        }
+
+        private void LayoutWindow_KeyUp(object sender, KeyEventArgs e)
+        {
+            string Key = e.Key.ToString();
+
+            if (Key.ToUpper() == "I")
+            {
+                PlayerSettings._appStart.Instance_KeyPress("ClientInfo");
+            }
         }
 
         private void LayoutWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             //throw new NotImplementedException();
-            _appStart.FormClosing();
+            PlayerSettings._appStart.FormClosing();
         }
 
         private void LayoutWindow_Loaded(object sender, RoutedEventArgs e)
@@ -118,7 +128,7 @@ namespace XiboClient2
             }
             catch (Exception ex)
             {
-
+                Trace.WriteLine(new LogMessage("ChangeToNextLayout", "Can't load next layout"), LogType.Info.ToString());
             }
 
         }
@@ -129,6 +139,7 @@ namespace XiboClient2
         private void NextLayout()
         {
             Console.WriteLine("New Layout");
+            
             try
             {
                 callback = null;

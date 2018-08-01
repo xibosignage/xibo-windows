@@ -107,7 +107,6 @@ namespace XiboClient2.Media
             if (_MediaFinish != null)
             {
                 _MediaFinish(mediaId);
-
             }
         }
     }

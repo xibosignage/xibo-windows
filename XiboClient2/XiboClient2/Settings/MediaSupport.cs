@@ -97,8 +97,7 @@ namespace XiboClient2.Settings
                 To = 1,
                 Duration = TimeSpan.FromMilliseconds(duration)
             };
-
-
+            
             if (item is System.Windows.Controls.Image)
             {
                 (item as System.Windows.Controls.Image).BeginAnimation(dp, doubleAnimationFade);
@@ -283,6 +282,7 @@ namespace XiboClient2.Settings
                     }
 
                     trans.BeginAnimation(TranslateTransform.XProperty, doubleAnimationX);
+
                     break;
                 case "NW":
                     if (inOut == "in")

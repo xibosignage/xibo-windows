@@ -118,7 +118,7 @@ namespace XiboClient2.Media
             {
                 Name = "region" + _regionID
             };
-            web.Address = temSavePath;//uriFlash;
+            web.Address = temSavePath;
 
             TimerMediaFlash = new System.Timers.Timer();
             TimerMediaFlash.Elapsed += new ElapsedEventHandler(Flashtimer_Tick);

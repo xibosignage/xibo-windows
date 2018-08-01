@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using XiboClient2.Processor.Forms;
 using XiboClient2.Processor.Log;
+using XiboClient2.Processor.Logic;
 
 namespace XiboClient2
 {
@@ -54,7 +55,44 @@ namespace XiboClient2
                     }
                     else
                     {
-                        RunClient();
+                        //RunClient();
+                        switch (e.Args[0].ToLower().Trim().Substring(0, 2))
+                        //switch (argvalue)
+                        {
+                            // Preview the screen saver
+                            case "/p":
+                                // args[1] is the handle to the preview window
+                                KeyInterceptor.SetHook();
+                                MouseInterceptor.SetHook();
+                                RunClient(new IntPtr(long.Parse(e.Args[1])));
+                                KeyInterceptor.UnsetHook();
+                                MouseInterceptor.UnsetHook();
+                                break;
+
+                            // Show the screen saver
+                            case "/s":
+                                KeyInterceptor.SetHook();
+                                MouseInterceptor.SetHook();
+                                RunClient(true);
+                                KeyInterceptor.UnsetHook();
+                                MouseInterceptor.UnsetHook();
+                                break;
+
+                            // Configure the screesaver's settings
+                            case "/c":
+                                // Show the settings form
+                                RunSettings();
+                                break;
+
+                            // Show the screen saver
+                            default:
+                                KeyInterceptor.SetHook();
+                                MouseInterceptor.SetHook();
+                                RunClient(true);
+                                KeyInterceptor.UnsetHook();
+                                MouseInterceptor.UnsetHook();
+                                break;
+                        }
                     }
                 }
                 else
@@ -70,7 +108,7 @@ namespace XiboClient2
 
         private static void RunClient()
         {
-            /// Trace.WriteLine(new LogMessage("Main", "Client Started"), LogType.Info.ToString());
+            Trace.WriteLine(new LogMessage("Main", "Client Started"), LogType.Info.ToString());
             MainWindow windowMain = new MainWindow();
             windowMain.ShowDialog();
         }
@@ -80,6 +118,16 @@ namespace XiboClient2
             // If we are showing the options form, enable visual styles
             OptionForm windowMain = new OptionForm();
             windowMain.ShowDialog();
+        }
+
+        private static void RunClient(bool screenSaver)
+        {
+            Trace.WriteLine(new LogMessage("Main", "Client Started"), LogType.Info.ToString());
+        }
+
+        private static void RunClient(IntPtr previewWindow)
+        {
+            Trace.WriteLine(new LogMessage("Main", "Client Started"), LogType.Info.ToString());
         }
 
 

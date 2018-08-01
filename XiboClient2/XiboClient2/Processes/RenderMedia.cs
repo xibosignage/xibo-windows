@@ -465,7 +465,6 @@ namespace XiboClient2.Processes
                             options.transOutDirection,
                             options.launchThroughCmd, options.scName, options.terminateCommand, options.useTaskkill, options.windowsCommand)
                         );
-
                         break;
 
                     case "datasetview":

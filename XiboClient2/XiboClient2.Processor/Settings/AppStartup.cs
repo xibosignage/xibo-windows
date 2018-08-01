@@ -173,6 +173,23 @@ namespace XiboClient2.Processor.Settings
         }
         
 
+        public static void ScreenSaver(IntPtr previewHandle, IntPtr Handle)
+        {
+            // Set the preview window of the screen saver selection 
+            // dialog in Windows as the parent of this form.
+            SetParent(Handle, previewHandle);
+
+            // Set this form to a child form, so that when the screen saver selection 
+            // dialog in Windows is closed, this form will also close.
+            SetWindowLong(Handle, -16, new IntPtr(GetWindowLong(Handle, -16) | 0x40000000));
+
+            // Set the size of the screen saver to the size of the screen saver 
+            // preview window in the screen saver selection dialog in Windows.
+            Rectangle ParentRect;
+            GetClientRect(previewHandle, out ParentRect);
+        }
+
+
         public void Instance_KeyPress(string name)
         {
             Debug.WriteLine("KeyPress " + name);
