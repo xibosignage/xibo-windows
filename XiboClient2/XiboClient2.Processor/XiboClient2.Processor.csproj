@@ -94,6 +94,7 @@
     <Compile Include="Action\XmrSubscriber.cs" />
     <Compile Include="Control\EmbeddedServer.cs" />
     <Compile Include="Control\WatchDogManager.cs" />
+    <Compile Include="Error\DefaultLayoutException.cs" />
     <Compile Include="Forms\OptionForm.cs">
       <SubType>Form</SubType>
     </Compile>

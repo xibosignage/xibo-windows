@@ -11,9 +11,7 @@ namespace XiboClient2.Processes
 {
     public class RenderLayout
     {
-        public static List<MediaOption> MediaNodeList = new List<MediaOption>();
-        public static List<AudioOption> AudioNodeList = new List<AudioOption>();
-
+        
         public RenderLayout()
         {
 
@@ -28,6 +26,7 @@ namespace XiboClient2.Processes
             try
             {
                 string _layoutPath = PlayerSettings.libraryPath + layoutId + ".xlf";
+                //string _layoutPath = layoutId;
                 XmlDocument layoutXml = new XmlDocument();
 
                 if (!string.IsNullOrEmpty(_layoutPath))

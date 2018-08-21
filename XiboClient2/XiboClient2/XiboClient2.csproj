@@ -121,9 +121,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="LayoutWindow.xaml.cs">
-      <DependentUpon>LayoutWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Media\AudioControl.xaml.cs">
       <DependentUpon>AudioControl.xaml</DependentUpon>
     </Compile>
@@ -133,8 +130,14 @@
     <Compile Include="Media\ImageControl.xaml.cs">
       <DependentUpon>ImageControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Media\LayoutControl.xaml.cs">
+      <DependentUpon>LayoutControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Media\LocalVideoControl.xaml.cs">
       <DependentUpon>LocalVideoControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Media\OverlayControl.xaml.cs">
+      <DependentUpon>OverlayControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Media\PanelControl.xaml.cs">
       <DependentUpon>PanelControl.xaml</DependentUpon>
@@ -148,18 +151,14 @@
     <Compile Include="Processes\RenderLayout.cs" />
     <Compile Include="Processes\RenderMedia.cs" />
     <Compile Include="Processes\RenderRegion.cs" />
-    <Compile Include="Processes\RenderSchedule.cs" />
     <Compile Include="Processes\ShellCommand.cs" />
     <Compile Include="Settings\AudioOption.cs" />
     <Compile Include="Settings\LayoutOption.cs" />
     <Compile Include="Settings\MediaOption.cs" />
     <Compile Include="Settings\MediaSupport.cs" />
+    <Compile Include="Settings\OverlaysOptions.cs" />
     <Compile Include="Settings\PlayerSettings.cs" />
     <Compile Include="Settings\RegionOptions.cs" />
-    <Page Include="LayoutWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -184,7 +183,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Media\LayoutControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Media\LocalVideoControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Media\OverlayControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

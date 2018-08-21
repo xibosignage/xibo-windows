@@ -219,7 +219,7 @@ namespace XiboClient2.Processes
                             _audio.volume = int.Parse(audioNode.Attributes["volume"].Value);
                         }
 
-                        RenderLayout.AudioNodeList.Add(
+                        PlayerSettings.AudioNodeList.Add(
                             new AudioOption(
                                 _options.mediaId,
                                 _audio.volume,
@@ -247,7 +247,7 @@ namespace XiboClient2.Processes
             if (options.render == "html")
             {
                 options.uri = PlayerSettings.libraryPath + @"\" + options.uri;
-                RenderLayout.MediaNodeList.Add(
+                PlayerSettings.MediaNodeList.Add(
                 new MediaOption(
                     options.layoutId,
                     options.regionId,
@@ -286,7 +286,7 @@ namespace XiboClient2.Processes
                 {
                     case "image":
                         options.uri = PlayerSettings.libraryPath + @"\" + options.uri;
-                        RenderLayout.MediaNodeList.Add(
+                        PlayerSettings.MediaNodeList.Add(
                         new MediaOption(
                             options.layoutId,
                             options.regionId,
@@ -322,7 +322,7 @@ namespace XiboClient2.Processes
 
                     case "powerpoint":
                         options.uri = PlayerSettings.libraryPath + @"\" + options.uri;
-                        RenderLayout.MediaNodeList.Add(
+                        PlayerSettings.MediaNodeList.Add(
                         new MediaOption(
                             options.layoutId,
                             options.regionId,
@@ -359,7 +359,7 @@ namespace XiboClient2.Processes
                     case "video":
                         options.uri = PlayerSettings.libraryPath + options.uri;
 
-                        RenderLayout.MediaNodeList.Add(
+                        PlayerSettings.MediaNodeList.Add(
                         new MediaOption(
                             options.layoutId,
                             options.regionId,
@@ -396,7 +396,7 @@ namespace XiboClient2.Processes
 
                     case "localvideo":
                         //options.uri = Uri.UnescapeDataString(options.uri);
-                        RenderLayout.MediaNodeList.Add(
+                        PlayerSettings.MediaNodeList.Add(
                         new MediaOption(
                             options.layoutId,
                             options.regionId,
@@ -433,7 +433,7 @@ namespace XiboClient2.Processes
 
                     case "audio":
                         options.uri = PlayerSettings.libraryPath + options.uri;
-                        RenderLayout.MediaNodeList.Add(
+                        PlayerSettings.MediaNodeList.Add(
                         new MediaOption(
                             options.layoutId,
                             options.regionId,
@@ -472,7 +472,7 @@ namespace XiboClient2.Processes
                     case "ticker":
                     case "text":
                     case "webpage":
-                        RenderLayout.MediaNodeList.Add(
+                        PlayerSettings.MediaNodeList.Add(
                         new MediaOption(
                             options.layoutId,
                             options.regionId,
@@ -508,7 +508,7 @@ namespace XiboClient2.Processes
 
                     case "flash":
                         options.uri = PlayerSettings.libraryPath + options.uri;
-                        RenderLayout.MediaNodeList.Add(
+                        PlayerSettings.MediaNodeList.Add(
                         new MediaOption(
                             options.layoutId,
                             options.regionId,
@@ -543,7 +543,7 @@ namespace XiboClient2.Processes
                         break;
 
                     case "shellcommand":
-                        RenderLayout.MediaNodeList.Add(
+                        PlayerSettings.MediaNodeList.Add(
                             new MediaOption(
                                 options.layoutId,
                                 options.regionId,
