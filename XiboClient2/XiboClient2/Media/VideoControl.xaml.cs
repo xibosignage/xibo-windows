@@ -45,7 +45,9 @@ namespace XiboClient2.Media
         private void VideoControl_Unloaded(object sender, RoutedEventArgs e)
         {
             TimerMediaVideo.Stop();
+            //medaiElemnt.Stop();
             medaiElemnt = null;
+            this.videoPanel.Children.Clear();
         }
 
         private void VideoControl_Loaded(object sender, RoutedEventArgs e)
@@ -145,7 +147,7 @@ namespace XiboClient2.Media
 
         private void MedaiElemnt_MediaEnded(object sender, RoutedEventArgs e)
         {
-            medaiElemnt.Position = TimeSpan.FromSeconds(0);
+            medaiElemnt.Position = TimeSpan.FromSeconds(0.1);
         }
 
         /// <summary>

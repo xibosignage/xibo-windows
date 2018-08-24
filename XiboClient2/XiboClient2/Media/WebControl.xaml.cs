@@ -53,10 +53,20 @@ namespace XiboClient2.Media
         /// <param name="e"></param>
         private void WebControl_Unloaded(object sender, RoutedEventArgs e)
         {
-            //Dispose web
-            web.Dispose();
-            //Stop timer
-            TimerMedia.Stop();
+            try
+            {
+                //Dispose web
+                web.Dispose();
+
+                //Stop timer
+                TimerMedia.Stop();
+            }
+            catch(Exception ex)
+            {
+                PlayerSettings.ErrorLog(ex);
+            }
+            
+            
         }
 
         /// <summary>

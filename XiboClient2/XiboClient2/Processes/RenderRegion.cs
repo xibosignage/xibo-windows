@@ -14,9 +14,6 @@ namespace XiboClient2.Processes
     {
 
         //RenderMedia _media = new RenderMedia();
-
-        public static List<RegionOptions> RegionList = new List<RegionOptions>();
-
         private static System.Windows.Size _clientSize;
 
         public RenderRegion()
@@ -119,7 +116,7 @@ namespace XiboClient2.Processes
                 }
             }
 
-            RegionList.Add(
+            PlayerSettings.RegionList.Add(
                 new RegionOptions(
                     options.layoutId,
                     options.regionId,

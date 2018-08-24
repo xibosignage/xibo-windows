@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace XiboClient2.Processor.Control
 {
-    class WatchDogManager
+    public class WatchDogManager
     {
         public static void Start()
         {

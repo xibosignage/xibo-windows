@@ -132,7 +132,7 @@ namespace XiboClient2.Processor.Logic
                     {
                         _files.Remove(file);
 
-                        System.Diagnostics.Debug.WriteLine(new LogMessage("Remove", "Removing stale MD5 from the CacheManager"), LogType.Info.ToString());
+                        Debug.WriteLine(new LogMessage("Remove", "Removing stale MD5 from the CacheManager"), LogType.Info.ToString());
                     }
                 }
             }

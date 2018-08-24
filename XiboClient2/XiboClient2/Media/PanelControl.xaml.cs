@@ -85,7 +85,7 @@ namespace XiboClient2.Media
             try
             {
                 //Filter Media in this Region
-                MediaList = RenderLayout.MediaNodeList.Where(find => find.regionId == RegionId).ToList();
+                MediaList = PlayerSettings.MediaNodeList.Where(find => find.regionId == RegionId).ToList();
                 ViewRegionMedia(loopCounter);
             }
             catch (Exception ex)
@@ -207,7 +207,7 @@ namespace XiboClient2.Media
         /// <param name="mediaId"></param>
         private void BackgroundAudio(int mediaId)
         {
-            AudioList = RenderLayout.AudioNodeList.Where(x => x.mediaId == mediaId).ToList();
+            AudioList = PlayerSettings.AudioNodeList.Where(x => x.mediaId == mediaId).ToList();
             if (AudioList.Count > 1)
             {
                 audioBgElemnt = new MediaElement()
