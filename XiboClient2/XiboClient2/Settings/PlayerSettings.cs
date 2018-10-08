@@ -19,9 +19,9 @@ namespace XiboClient2.Settings
         public static int firstLoadCheck = 0;
         public static bool EnableShellCommands = true;
 
-        public static List<RegionOptions> RegionList = new List<RegionOptions>();
-        public static List<MediaOption> MediaNodeList = new List<MediaOption>();
-        public static List<AudioOption> AudioNodeList = new List<AudioOption>();
+        
+
+        public static List<LayoutOption> OverlayList = new List<LayoutOption>();
 
         /// <summary>
         /// Get Video Audio duraion

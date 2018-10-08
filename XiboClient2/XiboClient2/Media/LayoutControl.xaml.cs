@@ -24,11 +24,9 @@ namespace XiboClient2.Media
     public partial class LayoutControl : UserControl
     {
         double _layoutDuration = 0;
-
-        //Loop Details
-        int _layoutListID = 0;
-
+        
         FinishRegionCallback callback;
+        LayoutOption _layout = new LayoutOption();
 
         /// <summary>
         /// Time for Layout Change
@@ -84,17 +82,14 @@ namespace XiboClient2.Media
             {
                 
                 FinishedRegionList.Clear();
-                PlayerSettings.RegionList.Clear();
-                PlayerSettings.MediaNodeList.Clear();
-                PlayerSettings.AudioNodeList.Clear();
                 //this.LayoutRoot.Children.Clear();
 
                 //Read Layout List
                 //RenderLayout.PrepareLayout(RenderSchedule.ListLayouts[_layoutListID]);
-                RenderLayout.PrepareLayout(_layoutID);
+                RenderLayout.PrepareLayout(_layoutID, _layout);
 
                 //Reoder
-                PlayerSettings.RegionList = PlayerSettings.RegionList.OrderBy(x => x.zIndex).ToList();
+                _layout.RegionList = _layout.RegionList.OrderBy(x => x.zIndex).ToList();
 
                 //Timer
                 dispatcherTimer.Tick += DispatcherTimer_Tick;
@@ -106,12 +101,12 @@ namespace XiboClient2.Media
 
                 this.Cursor = Cursors.None;
                 var bc = new BrushConverter();
-                this.Background = (Brush)bc.ConvertFrom(LayoutOption.backgroundColor);
+                this.Background = (Brush)bc.ConvertFrom(_layout.backgroundColor);
 
                 //set background image
-                if (LayoutOption.backgroundImage != "")
+                if (_layout.backgroundImage != "")
                 {
-                    string BackgroundImage = LayoutOption.backgroundImage;
+                    string BackgroundImage = _layout.backgroundImage;
                     this.Background = new ImageBrush(new BitmapImage(new Uri(BackgroundImage)));
                 }
             }
@@ -125,7 +120,7 @@ namespace XiboClient2.Media
         {
             try
             {
-                if (FinishedRegionList.Count >= PlayerSettings.RegionList.Count)
+                if (FinishedRegionList.Count >= _layout.RegionList.Count)
                 {
                     NextLayout();
                 }
@@ -155,9 +150,9 @@ namespace XiboClient2.Media
 
                 PlayerSettings.firstLoadCheck = 1;
                 FinishedRegionList.Clear();
-                PlayerSettings.RegionList.Clear();
-                PlayerSettings.MediaNodeList.Clear();
-                PlayerSettings.AudioNodeList.Clear();
+                //PlayerSettings.RegionList.Clear();
+                //PlayerSettings.MediaNodeList.Clear();
+                //PlayerSettings.AudioNodeList.Clear();
                 this.LayoutRoot.Children.Clear();
 
 
@@ -187,11 +182,11 @@ namespace XiboClient2.Media
                 {
                     RegionDurationList.Clear();
                 }
-                if (PlayerSettings.RegionList.Count > 0)
+                if (_layout.RegionList.Count > 0)
                 {
                     try
                     {
-                        for (int listIndex = 0; listIndex < PlayerSettings.RegionList.Count; listIndex++)
+                        for (int listIndex = 0; listIndex < _layout.RegionList.Count; listIndex++)
                         {
                             RegionDuraion(listIndex);
                             SetRegionPanel(listIndex);
@@ -237,9 +232,9 @@ namespace XiboClient2.Media
                     RegionsMedia.Clear();
                 }
                 //Region ID
-                string regionId = PlayerSettings.RegionList[region].regionId;
+                string regionId = _layout.RegionList[region].regionId;
                 //Get Media in to one region
-                RegionsMedia = PlayerSettings.MediaNodeList.Where(x => x.regionId == regionId).ToList();
+                RegionsMedia = _layout.MediaNodeList.Where(x => x.regionId == regionId).ToList();
 
                 double regionDuration = 0;
 
@@ -295,14 +290,14 @@ namespace XiboClient2.Media
             {
                 callback = new FinishRegionCallback(CompleteRegion);
 
-                string _regionID = PlayerSettings.RegionList[index].regionId;
+                string _regionID = _layout.RegionList[index].regionId;
 
-                int _widht = PlayerSettings.RegionList[index].width;
-                int _height = PlayerSettings.RegionList[index].height;
-                int _Top = PlayerSettings.RegionList[index].top;
-                int _left = PlayerSettings.RegionList[index].left;
+                int _widht = _layout.RegionList[index].width;
+                int _height = _layout.RegionList[index].height;
+                int _Top = _layout.RegionList[index].top;
+                int _left = _layout.RegionList[index].left;
 
-                PanelControl panelCon = new PanelControl(_regionID, callback)
+                PanelControl panelCon = new PanelControl(_regionID, _layout, callback)
                 {
                     Width = _widht,
                     Height = _height,

@@ -47,6 +47,7 @@ namespace XiboClient2.Media
             img = null;
             Console.WriteLine("Region" + obj.regionId + "Media Unload");
             TimerMediaImg.Stop();
+            this.ImagePanel.Children.Clear();
         }
 
         /// <summary>

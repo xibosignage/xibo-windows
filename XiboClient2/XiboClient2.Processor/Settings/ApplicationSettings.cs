@@ -73,11 +73,7 @@ namespace XiboClient2.Processor.Settings
                     {
                         // Load the XML document
                         document = new XmlDocument();
-
-                        //commented by DuranIT - 14032018
                         document.Load(path + Path.DirectorySeparatorChar + fileName + ".config.xml");
-
-                        //document.Load("E:\\Project\\xibo-dotnetclient-develop\\default.config.xml");
 
                         _instance.PopulateFromXml(document);
                         _instance.Save();

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using XiboClient2.Settings;
 
 namespace XiboClient2.Media
 {
@@ -22,21 +23,19 @@ namespace XiboClient2.Media
     {
 
         private string _layoutPath;
-        private int _width;
-        private int _height;
-        private int _top;
-        private int _left;
+        LayoutOption _ovelays = new LayoutOption();
 
         public OverlayControl()
         {
             InitializeComponent();
         }
 
-        public OverlayControl(string LayoutPath)
+        public OverlayControl(string LayoutPath, LayoutOption _ovelay)
         {
             InitializeComponent();
 
             this._layoutPath = LayoutPath;
+            _ovelays = _ovelay;
 
             Loaded += OverlayControl_Loaded;
             Unloaded += OverlayControl_Unloaded;
@@ -44,15 +43,75 @@ namespace XiboClient2.Media
 
         private void OverlayControl_Unloaded(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            try
+            {
+                this.OvelaysRoot.Children.Clear();
+            }
+            catch (Exception ex)
+            {
+                PlayerSettings.ErrorLog(ex);
+            }
         }
 
         private void OverlayControl_Loaded(object sender, RoutedEventArgs e)
         {
-            //throw new NotImplementedException();
-            this.Width = 1000;
-            this.Height = 10000;
-            this.HorizontalAlignment = HorizontalAlignment.Center;
+            try
+            {
+                //Reoder
+                _ovelays.RegionList = _ovelays.RegionList.OrderBy(x => x.zIndex).ToList();
+
+                //Stat view
+                ViewLayout();
+
+                this.Cursor = Cursors.None;
+            }
+            catch (Exception ex)
+            {
+                PlayerSettings.ErrorLog(ex);
+            }
+        }
+
+        private void ViewLayout()
+        {
+            try
+            {
+                for (int listIndex = 0; listIndex < _ovelays.RegionList.Count; listIndex++)
+                {
+                    SetRegionPanel(listIndex);
+                }
+            }
+            catch (Exception ex)
+            {
+                PlayerSettings.ErrorLog(ex);
+            }
+        }
+
+        private void SetRegionPanel(int index)
+        {
+            try
+            {
+                string _regionID = _ovelays.RegionList[index].regionId;
+
+                int _widht = _ovelays.RegionList[index].width;
+                int _height = _ovelays.RegionList[index].height;
+                int _Top = _ovelays.RegionList[index].top;
+                int _left = _ovelays.RegionList[index].left;
+
+                PanelControl panelCon = new PanelControl(_regionID, _ovelays, null)
+                {
+                    Width = _widht,
+                    Height = _height,
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    VerticalAlignment = VerticalAlignment.Top,
+                    Margin = new Thickness(_left, _Top, 0, 0)
+                };
+
+                this.OvelaysRoot.Children.Add(panelCon);
+            }
+            catch (Exception ex)
+            {
+                PlayerSettings.ErrorLog(ex);
+            }
         }
     }
 }

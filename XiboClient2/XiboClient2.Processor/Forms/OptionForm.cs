@@ -148,10 +148,7 @@ namespace XiboClient2.Processor.Forms
             }
         }
 
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e) => Environment.Exit(0);
 
         private void buttonLibrary_Click(object sender, EventArgs e)
         {
@@ -261,9 +258,17 @@ namespace XiboClient2.Processor.Forms
             return;
         }
 
-        private void buttonExit_Click(object sender, EventArgs e)
+        private void buttonExit_Click(object sender, EventArgs e) => Environment.Exit(0);
+
+        private void button1_Click(object sender, EventArgs e)
         {
             Close();
+            Process.Start(Application.ExecutablePath);
+        }
+
+        private void OptionForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Environment.Exit(0);
         }
     }
 }
