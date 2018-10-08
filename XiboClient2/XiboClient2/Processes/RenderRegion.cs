@@ -25,7 +25,7 @@ namespace XiboClient2.Processes
         /// Get region Details
         /// </summary>
         /// <param name="region"></param>
-        public static void RenderRegionDetails(XmlNode region)
+        public static void RenderRegionDetails(XmlNode region, LayoutOption _layoutOption)
         {
             RegionOptions regionOption = new RegionOptions();
             MediaOption options = new MediaOption();
@@ -35,8 +35,8 @@ namespace XiboClient2.Processes
             _clientSize.Width = SystemParameters.PrimaryScreenWidth;
 
             // Set the background and size of the form
-            double layoutWidth = int.Parse(LayoutOption.layoutWidth.ToString(), CultureInfo.InvariantCulture);
-            double layoutHeight = int.Parse(LayoutOption.layoutHeight.ToString(), CultureInfo.InvariantCulture);
+            double layoutWidth = int.Parse(_layoutOption.layoutWidth.ToString(), CultureInfo.InvariantCulture);
+            double layoutHeight = int.Parse(_layoutOption.layoutHeight.ToString(), CultureInfo.InvariantCulture);
 
             // Scaling factor, will be applied to all regions
             double scaleFactor = Math.Min(_clientSize.Width / layoutWidth, _clientSize.Height / layoutHeight);
@@ -68,7 +68,7 @@ namespace XiboClient2.Processes
             if (regionAttributes.Count > 0)
             {
                 //options.scheduleId = _scheduleId;
-                options.layoutId = LayoutOption.layoutId.ToString();
+                options.layoutId = _layoutOption.layoutId.ToString();
                 options.regionId = regionAttributes["id"].Value.ToString();
                 options.width = (int)(Convert.ToDouble(regionAttributes["width"].Value, CultureInfo.InvariantCulture) * scaleFactor);
                 options.height = (int)(Convert.ToDouble(regionAttributes["height"].Value, CultureInfo.InvariantCulture) * scaleFactor);
@@ -116,7 +116,7 @@ namespace XiboClient2.Processes
                 }
             }
 
-            PlayerSettings.RegionList.Add(
+            _layoutOption.RegionList.Add(
                 new RegionOptions(
                     options.layoutId,
                     options.regionId,
@@ -135,7 +135,7 @@ namespace XiboClient2.Processes
                 XmlNodeList listMedia = region.SelectNodes("media");
                 if (listMedia.Count > 0)
                 {
-                    RenderMedia.MediaList(listMedia, options);
+                    RenderMedia.MediaList(listMedia, options, _layoutOption);
                 }
                 else
                 {
@@ -143,5 +143,7 @@ namespace XiboClient2.Processes
                 }
             }
         }
+
+        
     }
 }

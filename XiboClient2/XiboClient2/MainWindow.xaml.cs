@@ -41,7 +41,7 @@ namespace XiboClient2
     {
         FinishLayoutCallback finishLayout;
 
-        private string scheduleName = "schedule.xml";
+        //private string scheduleName = "schedule.xml";
         private bool _screenSaver = false;
 
         private Schedule _schedule;
@@ -51,9 +51,9 @@ namespace XiboClient2
         private int _layoutId;
         private bool _showingSplash = false;
 
-        double _layoutWidth;
-        double _layoutHeight;
-        double _scaleFactor;
+        //double _layoutWidth;
+        //double _layoutHeight;
+        //double _scaleFactor;
         //private Size _clientSize;
 
         private StatLog _statLog;
@@ -146,9 +146,24 @@ namespace XiboClient2
 
             this.Loaded += MainWindow_Loaded;
             this.Closing += MainWindow_Closing;
-            this.ContentRendered += MainWindow_ContentRendered;            
+            this.ContentRendered += MainWindow_ContentRendered;
+            this.KeyUp += MainWindow_KeyUp;
         }
 
+        private void MainWindow_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if(e.Key == Key.I)
+            {
+                Instance_KeyPress("ClientInfo");
+            }
+            
+        }
+
+        /// <summary>
+        /// main window closing - All therds stop
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainWindow_Closing(object sender, CancelEventArgs e)
         {
             // We want to tidy up some stuff as this form closes.
@@ -179,6 +194,10 @@ namespace XiboClient2
 
             // Flush the logs
             Trace.Flush();
+
+            this.root.Children.Clear();
+
+            Environment.Exit(0);
         }
 
         private void MainWindow_ContentRendered(object sender, EventArgs e)
@@ -214,20 +233,27 @@ namespace XiboClient2
             }
         }
 
-        
+        /// <summary>
+        /// main window loding event
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             // Is the mouse enabled?
             if (!ApplicationSettings.Default.EnableMouse)
+            {
                 // Hide the cursor
-                //Cursor.Hide();
+            }
+            
+            // Move the cursor to the starting place
+            if (!_screenSaver)
+            {
+                //SetCursorStartPosition();
+            }
 
-                // Move the cursor to the starting place
-                if (!_screenSaver)
-                    //SetCursorStartPosition();
-
-                    // Show the splash screen
-                    ShowSplashScreen();
+            // Show the splash screen
+            ShowSplashScreen();
 
             // Change the default Proxy class
             OptionForm.SetGlobalProxy();
@@ -251,7 +277,7 @@ namespace XiboClient2
             ApplicationSettings.Default.XmdsLastConnection = DateTime.MinValue;
 
             // Show in taskbar
-            //ShowInTaskbar = ApplicationSettings.Default.ShowInTaskbar;
+            ShowInTaskbar = ApplicationSettings.Default.ShowInTaskbar;
 
             // Setup the proxy information
             OptionForm.SetGlobalProxy();
@@ -315,6 +341,7 @@ namespace XiboClient2
 
             Trace.WriteLine(new LogMessage("MainForm", "Client Initialised"), LogType.Info.ToString());
         }
+        
 
         private void InitializeScreenSaver(bool preview)
         {
@@ -544,7 +571,7 @@ namespace XiboClient2
         }
 
         /// <summary>
-        /// when complete layout 
+        /// when complete layout
         /// </summary>
         private void CompleteLayout()
         {
@@ -652,7 +679,110 @@ namespace XiboClient2
         {
             try
             {
-                //Debug.WriteLine("Arrived at Manage Overlays with " + overlays.Count + " overlay schedules to show. We're already showing " + _overlays.Count + " overlay Regions", "Overlays");
+                var _overlays = PlayerSettings.OverlayList;
+                Debug.WriteLine("Arrived at Manage Overlays with " + overlays.Count + " overlay schedules to show. We're already showing " + _overlays.Count + " overlay Regions", "Overlays");
+
+                // Take the ones we currently have up and remove them if they aren't in the new list or if they've been set to refresh
+                // We use a for loop so that we are able to remove the region from the collection
+                for (int i = 0; i < _overlays.Count; i++)
+                {
+                    Debug.WriteLine("Assessing Overlay Region " + i, "Overlays");
+
+                    string _ovelayName = "overlay" + _overlays[i].layoutId;
+
+                    var region = PlayerSettings.OverlayList[i];
+                    bool found = false;
+                    bool refresh = false;
+
+                    foreach (ScheduleItem item in overlays)
+                    {
+                        if (item.scheduleid == region.scheduleId)
+                        {
+                            found = true;
+                            refresh = item.Refresh;
+                            break;
+                        }
+                    }
+
+                    if (!found || refresh)
+                    {
+                        if (refresh)
+                        {
+                            Trace.WriteLine(new LogMessage("MainForm - ManageOverlays", "Refreshing item that has changed."), LogType.Info.ToString());
+                        }
+                        Debug.WriteLine("Removing overlay " + i + " which is no-longer required. Overlay: " + region.scheduleId, "Overlays");
+
+                        // Remove the Region from the overlays collection
+                        _overlays.Remove(region);
+
+                        // As we've removed the thing we're iterating over, reduce i
+                        i--;
+
+                        // Clear down and dispose of the region.
+                        region = null;
+
+                        this.Dispatcher.BeginInvoke(new Action(() =>
+                        {
+                            var item = root.FindName(_ovelayName) as System.Windows.Controls.UserControl;
+                            try
+                            {
+                                this.Overlay.Children.Remove(item);
+                            }
+                            catch (Exception ex)
+                            {
+
+                            }
+                        }));
+                        
+                    }
+                    else
+                    {
+                        Debug.WriteLine("Overlay Region found and not needing refresh " + i, "Overlays");
+                    }
+                }
+
+                // Take the ones that are in the new list and add them
+                foreach (ScheduleItem item in overlays)
+                {
+                    // Check its not already added.
+                    bool found = false;
+                    foreach (LayoutOption region in _overlays)
+                    {
+                        if (region.scheduleId == item.scheduleid)
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (found)
+                    {
+                        Debug.WriteLine("Region already found for overlay - we're assuming here that if we've found one, they are all there.", "Overlays");
+                        continue;
+                    }
+
+                    // Reset refresh
+                    item.Refresh = false;
+
+                    var _ovelayOptions = new LayoutOption();
+                    RenderOverlays.ReadOvelyas(item, _ovelayOptions);
+
+                    PlayerSettings.OverlayList.Add(_ovelayOptions);
+
+                    string _ovelayName = "overlay" + _ovelayOptions.layoutId.ToString();
+
+                    this.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        /* run your code here */
+                        var overlayouts = new OverlayControl(_ovelayOptions.layoutId.ToString(), _ovelayOptions);
+                        overlayouts.Name = _ovelayName;
+                        root.RegisterName(_ovelayName, overlayouts);
+
+                        this.Overlay.Children.Add(overlayouts);
+
+                    }));
+
+                }
 
             }
             catch (Exception ex)

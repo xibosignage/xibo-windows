@@ -8,6 +8,7 @@ namespace XiboClient2.Settings
 {
     public class OverlaysOptions
     {
+        public int scheduleId;
         public int layoutId;
         public string backgroundImage;
         public string backgroundColor;
@@ -15,5 +16,10 @@ namespace XiboClient2.Settings
         public int layoutHeight;
         public int layoutLeft = 0;
         public int layoutTop = 0;
+
+        public List<RegionOptions> regionList;
+        public List<MediaOption> mediaList;
+        public List<AudioOption> audioList;
+
     }
 }

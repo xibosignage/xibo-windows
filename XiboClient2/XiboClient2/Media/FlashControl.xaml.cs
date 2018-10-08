@@ -48,6 +48,7 @@ namespace XiboClient2.Media
         {
             web.Dispose();
             TimerMediaFlash.Stop();
+            this.FlashPanel.Children.Clear();
         }
 
         private void FlashControl_Loaded(object sender, RoutedEventArgs e)

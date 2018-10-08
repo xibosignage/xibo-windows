@@ -57,7 +57,7 @@ namespace XiboClient2.Media
             {
                 //Dispose web
                 web.Dispose();
-
+                this.webPanel.Children.Clear();
                 //Stop timer
                 TimerMedia.Stop();
             }

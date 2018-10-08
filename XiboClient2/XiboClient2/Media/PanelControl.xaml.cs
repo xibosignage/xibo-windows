@@ -39,6 +39,8 @@ namespace XiboClient2.Media
         List<MediaOption> MediaList = new List<MediaOption>();
         List<AudioOption> AudioList = new List<AudioOption>();
 
+        LayoutOption _layoutOption;
+
         //callback method
         FinishRegionCallback _callbackMethod;
 
@@ -52,11 +54,12 @@ namespace XiboClient2.Media
             InitializeComponent();
         }
 
-        public PanelControl(string index, FinishRegionCallback _callbackMethod)
+        public PanelControl(string index, LayoutOption layoutOption, FinishRegionCallback _callbackMethod)
         {
             InitializeComponent();
             this.RegionId = index;
             this._callbackMethod = _callbackMethod;
+            this._layoutOption = layoutOption;
             Loaded += PanelControl_Loaded;
             Window window = Window.GetWindow(this);
             Unloaded += PanelControl_Unloaded;
@@ -85,7 +88,7 @@ namespace XiboClient2.Media
             try
             {
                 //Filter Media in this Region
-                MediaList = PlayerSettings.MediaNodeList.Where(find => find.regionId == RegionId).ToList();
+                MediaList = _layoutOption.MediaNodeList.Where(find => find.regionId == RegionId).ToList();
                 ViewRegionMedia(loopCounter);
             }
             catch (Exception ex)
@@ -207,7 +210,7 @@ namespace XiboClient2.Media
         /// <param name="mediaId"></param>
         private void BackgroundAudio(int mediaId)
         {
-            AudioList = PlayerSettings.AudioNodeList.Where(x => x.mediaId == mediaId).ToList();
+            AudioList = _layoutOption.AudioNodeList.Where(x => x.mediaId == mediaId).ToList();
             if (AudioList.Count > 1)
             {
                 audioBgElemnt = new MediaElement()

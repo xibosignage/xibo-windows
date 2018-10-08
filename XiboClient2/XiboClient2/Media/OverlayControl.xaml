@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:XiboClient2.Media"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+    <Grid x:Name="OvelaysRoot">
             
     </Grid>
 </UserControl>

@@ -6,15 +6,22 @@ using System.Threading.Tasks;
 
 namespace XiboClient2.Settings
 {
-    struct LayoutOption
+    public class LayoutOption
     {
         //general options
-        public static int layoutId;
-        public static string backgroundImage;
-        public static string backgroundColor;
-        public static int layoutWidth;
-        public static int layoutHeight;
-        public static int layoutLeft = 0;
-        public static int layoutTop = 0;
+        public int scheduleId;
+        public int layoutId;
+        public string backgroundImage;
+        public string backgroundColor;
+        public int layoutWidth;
+        public int layoutHeight;
+        public int layoutLeft = 0;
+        public int layoutTop = 0;
+
+        //public List<RegionOptions MyProperty { get; set; }
+
+        public List<RegionOptions> RegionList = new List<RegionOptions>();
+        public List<MediaOption> MediaNodeList = new List<MediaOption>();
+        public List<AudioOption> AudioNodeList = new List<AudioOption>();
     }
 }

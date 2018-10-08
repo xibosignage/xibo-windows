@@ -26,6 +26,8 @@ namespace XiboClient2.Processor.Logic
 
         public List<string> Dependents = new List<string>();
 
+        public bool Refresh = false;
+
         /// <summary>
         /// ToString
         /// </summary>

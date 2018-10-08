@@ -16,13 +16,13 @@ namespace XiboClient2.Processes
             // MediaNodeList = new List<MediaOption>();
         }
 
-        public static void MediaList(XmlNodeList listMedia, MediaOption _options)
+        public static void MediaList(XmlNodeList listMedia, MediaOption _options, LayoutOption _layoutOption)
         {
             //Read Media list one by one
             foreach (XmlNode mediaNode in listMedia)
             {
                 XmlAttributeCollection nodeAttributes = mediaNode.Attributes;
-                ParseOptionsForMediaNode(mediaNode, nodeAttributes, _options);
+                ParseOptionsForMediaNode(mediaNode, nodeAttributes, _options, _layoutOption);
             }
         }
 
@@ -32,7 +32,7 @@ namespace XiboClient2.Processes
         /// <param name="mediaNode"></param>
         /// <param name="nodeAttributes"></param>
         /// <param name="_options"></param>
-        private static void ParseOptionsForMediaNode(XmlNode mediaNode, XmlAttributeCollection nodeAttributes, MediaOption _options)
+        private static void ParseOptionsForMediaNode(XmlNode mediaNode, XmlAttributeCollection nodeAttributes, MediaOption _options, LayoutOption _layoutOption)
         {
             //Media Id
             _options.mediaId = int.Parse(nodeAttributes["id"].Value);
@@ -219,7 +219,7 @@ namespace XiboClient2.Processes
                             _audio.volume = int.Parse(audioNode.Attributes["volume"].Value);
                         }
 
-                        PlayerSettings.AudioNodeList.Add(
+                        _layoutOption.AudioNodeList.Add(
                             new AudioOption(
                                 _options.mediaId,
                                 _audio.volume,
@@ -234,20 +234,20 @@ namespace XiboClient2.Processes
                 }
             }
 
-            CreateNextMediaNode(_options);
+            CreateNextMediaNode(_options, _layoutOption);
         }
 
         /// <summary>
         /// Add Media Details in to MedaiList
         /// </summary>
         /// <param name="options"></param>
-        private static void CreateNextMediaNode(MediaOption options)
+        private static void CreateNextMediaNode(MediaOption options, LayoutOption _layoutOption)
         {
             //Check media type
             if (options.render == "html")
             {
                 options.uri = PlayerSettings.libraryPath + @"\" + options.uri;
-                PlayerSettings.MediaNodeList.Add(
+                _layoutOption.MediaNodeList.Add(
                 new MediaOption(
                     options.layoutId,
                     options.regionId,
@@ -286,7 +286,7 @@ namespace XiboClient2.Processes
                 {
                     case "image":
                         options.uri = PlayerSettings.libraryPath + @"\" + options.uri;
-                        PlayerSettings.MediaNodeList.Add(
+                        _layoutOption.MediaNodeList.Add(
                         new MediaOption(
                             options.layoutId,
                             options.regionId,
@@ -322,7 +322,7 @@ namespace XiboClient2.Processes
 
                     case "powerpoint":
                         options.uri = PlayerSettings.libraryPath + @"\" + options.uri;
-                        PlayerSettings.MediaNodeList.Add(
+                        _layoutOption.MediaNodeList.Add(
                         new MediaOption(
                             options.layoutId,
                             options.regionId,
@@ -359,7 +359,7 @@ namespace XiboClient2.Processes
                     case "video":
                         options.uri = PlayerSettings.libraryPath + options.uri;
 
-                        PlayerSettings.MediaNodeList.Add(
+                        _layoutOption.MediaNodeList.Add(
                         new MediaOption(
                             options.layoutId,
                             options.regionId,
@@ -396,7 +396,7 @@ namespace XiboClient2.Processes
 
                     case "localvideo":
                         //options.uri = Uri.UnescapeDataString(options.uri);
-                        PlayerSettings.MediaNodeList.Add(
+                        _layoutOption.MediaNodeList.Add(
                         new MediaOption(
                             options.layoutId,
                             options.regionId,
@@ -433,7 +433,7 @@ namespace XiboClient2.Processes
 
                     case "audio":
                         options.uri = PlayerSettings.libraryPath + options.uri;
-                        PlayerSettings.MediaNodeList.Add(
+                        _layoutOption.MediaNodeList.Add(
                         new MediaOption(
                             options.layoutId,
                             options.regionId,
@@ -472,7 +472,7 @@ namespace XiboClient2.Processes
                     case "ticker":
                     case "text":
                     case "webpage":
-                        PlayerSettings.MediaNodeList.Add(
+                        _layoutOption.MediaNodeList.Add(
                         new MediaOption(
                             options.layoutId,
                             options.regionId,
@@ -508,7 +508,7 @@ namespace XiboClient2.Processes
 
                     case "flash":
                         options.uri = PlayerSettings.libraryPath + options.uri;
-                        PlayerSettings.MediaNodeList.Add(
+                        _layoutOption.MediaNodeList.Add(
                         new MediaOption(
                             options.layoutId,
                             options.regionId,
@@ -543,7 +543,7 @@ namespace XiboClient2.Processes
                         break;
 
                     case "shellcommand":
-                        PlayerSettings.MediaNodeList.Add(
+                        _layoutOption.MediaNodeList.Add(
                             new MediaOption(
                                 options.layoutId,
                                 options.regionId,

@@ -11,7 +11,10 @@
         WindowState="Maximized"
         WindowStyle="None"
         >
-    <Grid x:Name="LayoutRoot">
-
+    <Grid x:Name="root">
+        <!--layout grid-->
+        <Grid x:Name="LayoutRoot"></Grid>
+        <!--overlay grid-->
+        <Grid x:Name="Overlay" Panel.ZIndex="2"></Grid>
     </Grid>
 </Window>

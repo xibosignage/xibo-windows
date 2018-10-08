@@ -147,7 +147,15 @@ namespace XiboClient2.Media
 
         private void MedaiElemnt_MediaEnded(object sender, RoutedEventArgs e)
         {
-            medaiElemnt.Position = TimeSpan.FromSeconds(0.1);
+            try
+            {
+                medaiElemnt.Position = TimeSpan.FromSeconds(0.1);
+            }
+            catch
+            {
+                medaiElemnt = null;
+            }
+            
         }
 
         /// <summary>
